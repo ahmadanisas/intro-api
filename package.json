@@ -1,0 +1,17 @@
+{
+  "name": "into-api0612",
+  "version": "1.0.0",
+  "description": "introduction about API",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx nodemon index.ts"
+  },
+  "author": "Ahmadanisa",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.0.12",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
