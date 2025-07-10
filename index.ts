@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import fs from "fs"; // Library untuk mengelola file & directory
-
+import studentRoute from "./routers/student.router"; // Import route student
 
 const PORT: number = 5055; // port number terserah, 4 digit
 
@@ -16,26 +16,25 @@ app.get("/", (req: Request, res: Response) => {
   res.send("<h1>Express API</h1>"); // controller untuk mengirim respon, menjadi middleware ketika callback function
 });
 
-app.get("/student", (req: Request, res: Response) => {
-  // const filters = req.query; // Request input dari user, query string
-  // let filteredStudents = dbStudent; // Data semua student
+// Config Route
+app.use("/student", studentRoute); // Menggunakan route student yang sudah dibuat
 
-  // // Terapin filternya
-  // if (Object.keys(filters).length > 0) {
-  //   // Cek apakah ada filter yang diterapkan
-  //   filteredStudents = dbStudent.filter(
-  //     (
-  //       student // Cek setiap student yang cocok dengan filter
-  //     ) =>
-  //       Object.entries(filters).every(
-  //         ([key, value]) =>
-  //           student[key] &&
-  //           student[key].toString().toLowerCase() ===
-  //             value!.toString().toLowerCase()
-  //       )
-  const data = JSON.parse(fs.readFileSync("./db.json").toString()); // Membaca file db.json
-  res.send(data);
-});
+// const filters = req.query; // Request input dari user, query string
+// let filteredStudents = dbStudent; // Data semua student
+
+// // Terapin filternya
+// if (Object.keys(filters).length > 0) {
+//   // Cek apakah ada filter yang diterapkan
+//   filteredStudents = dbStudent.filter(
+//     (
+//       student // Cek setiap student yang cocok dengan filter
+//     ) =>
+//       Object.entries(filters).every(
+//         ([key, value]) =>
+//           student[key] &&
+//           student[key].toString().toLowerCase() ===
+//             value!.toString().toLowerCase()
+//       )
 
 //   res.send(filteredStudents); // Server mengembalikan data student jika tidak ada filter
 // });
@@ -47,9 +46,9 @@ app.post("/student", (req: Request, res: Response) => {
   // 1. Mengakses data dari file db.json
   const data = JSON.parse(fs.readFileSync("./db.json").toString()); // Membaca file db.json
   // 2. Generate id data baru
-  const newId = data(DataTransfer.length-1).id+1; // Mengambil id terakhir dari data yang ada, lalu ditambah 1 untuk id baru
+  const newId = data[data.length - 1].id + 1; // Mengambil id terakhir dari data yang ada, lalu ditambah 1 untuk id baru
   // 3. Tambahkan data baru ke array dbStudent
-  data.push({id: newId, ...req.body}); // Menggunakan spread operator untuk menambahkan data baru ke array dbStudent
+  data.push({ id: newId, ...req.body }); // Menggunakan spread operator untuk menambahkan data baru ke array dbStudent
   // 4. Tulis kembali data ke file db.json
   fs.writeFileSync("./db.json", JSON.stringify(data, null, 4)); // Menulis data baru ke file db.json, dengan format JSON yang rapi (4 spasi)
   // 5. Kirim response ke client
